@@ -1,0 +1,55 @@
+    async function envio(){
+      if (targetSend == 0 & (int_plc.prediccion == 0 || int_plc.prediccion == 9)) {
+        targetSend = 1;
+        await delay(1)
+        if(timeValidation == int_plc.prediccion){
+          send_data(int_plc)
+          console.log(int_plc);
+          console.log("buena o vacio")
+          console.log("dato enviado")
+        }
+      }
+
+      if (targetSend == 1 & (int_plc.prediccion != 0 & int_plc.prediccion != 9)) {
+        targetSend = 0
+        await delay(1)
+        if(timeValidation == int_plc.prediccion){
+          send_data(int_plc)
+          console.log(int_plc);
+          console.log("defecto")
+          console.log("dato enviado")
+        }
+      }
+    }
+
+
+
+    if (targetSend == 0 & (int_plc.prediccion == 0 || int_plc.prediccion == 9)) {
+      targetSend = 1;
+      await delay(1)
+      if(timeValidation == int_plc.prediccion){
+        send_data(int_plc)
+        console.log(int_plc);
+        console.log("buena o vacio")
+        console.log("dato enviado")
+      }
+    }
+
+    if (targetSend == 1 & (int_plc.prediccion != 0 & int_plc.prediccion != 9)) {
+      targetSend = 0
+      await delay(1)
+      if(timeValidation == int_plc.prediccion){
+        send_data(int_plc)
+        console.log(int_plc);
+        console.log("defecto")
+        console.log("dato enviado")
+      }
+    }
+
+
+
+            function delay(n){
+          return new Promise(function(resolve){
+              setTimeout(resolve,n*1000);
+          });
+        }

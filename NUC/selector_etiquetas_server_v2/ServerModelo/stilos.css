@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+.imagenes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 144px;
+  }
+.logo {
+  background: url(./LogotipoV2-Simple.png) no-repeat;
+  align-items: center;
+  justify-self: end;
+  width: 300px;
+  grid-area: 1/1/2/2;
+}
+.logondos {
+  background: url(./invesa.png) no-repeat;
+  align-items: center;
+  width: 300px;
+  grid-area: 1/2/2/3;
+  margin: 3px;
+}
+
+.titulo {
+  text-align: center;
+}
+.parrafo {
+  text-align: center;
+}
+.boton {
+  align-items: center;
+  width: 100px;
+  height: 38px;
+  border-radius: 30px;
+  background-color: rgb(102, 189, 247);
+  border: none;
+}
+.boton:hover {
+  background-color: #3b8dc4;
+  color: #fff;
+}
+.container {
+  align-items: center;
+  text-align: center;
+}
+.resultado {
+  font-weight: bold;
+  font-size: 6rem;
+  }

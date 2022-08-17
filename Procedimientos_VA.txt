@@ -1,0 +1,29 @@
+1. Definir categorias (depende del producto)
+2. Adquisicion de Set de entrenamiento (300 imagenes por clase)
+	2.1. en linea de produccion
+		sacar fotos las horas del dia (mañana, tarde, noche)
+	2.2. fuera de linea de produccion
+
+3. Creacion y entrenamiento del modelo.
+4. Pruebas en ambiente controlado.
+5. Ajustar la interfaz de pruebas para (colas las clases)
+5. Pruebas en linea.
+6. Proramacion\Integracion dispositivo perimetral.
+7. Cambio\Modificaciones linea
+
+Tarea (Martes)
+
+1. Estimacion Horas cuanto tiempo por cada item
+2. Completar todos lso tiempos que debemos tener en cuenta
+	PLC
+	NODE
+	Programacion de interfaz
+3. Lista de Hardware requerido. (Precio-usd, alternativas, foto) 
+	- dos camaras
+	- dispositivo perimetral
+	- iluminacion
+	- fijacion de camaras luces
+	- elemento de actuacion
+	- insumos (cables, memorias, conexion electrica)
+	- PLC
+4. Matrix de competencias.

@@ -1,0 +1,40 @@
+href="{{ url_for('static', filename='/stilos.css') }}">>
+
+
+
+
+      const request = fetch("http://localhost:8000/prediccion", {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({int_plc})
+      })
+
+      request
+      .then(response => ewaponse.json())
+      .then(data => console.log(Data))
+      .catch(err => console.log(err))  
+
+
+## boton de inicio de send
+
+        let target1;
+        let btnSend = document.getElementById("initSend");
+
+        btnSend.addEventListener('click', () => {
+          target1 = 0;
+          console.log(target1 + " boton send")
+          return target1
+        })
+        console.log(target1 + " iniciando")
+        if (target1 == 0 & (int_plc.prediccion == 0 || int_plc.prediccion == 9)) {
+          console.log(int_plc);
+          target1 = 1;
+          console.log(target1 +" buena o vacio")
+        }
+        if (target1 == 1 & (int_plc.prediccion != 0 & int_plc.prediccion != 9)) {
+          console.log(int_plc);
+          target1 = 0
+          console.log(target1 + " defecto")
+        }
+

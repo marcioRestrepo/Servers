@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  display: grid;
+}
+.top {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+.mid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+.row1 {
+ background-color: rgb(255, 255, 255);
+}
+.row2 {
+ background-color: rgb(255, 255, 255);
+}
+.imagenes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 144px;
+  }
+.logo {
+  background: url(./LogotipoV2-Simple.png) no-repeat;
+  align-items: center;
+  justify-self: end;
+  width: 300px;
+  grid-area: 1/1/2/2;
+}
+.logondos {
+  background: url(./invesa.png) no-repeat;
+  align-items: center;
+  width: 300px;
+  grid-area: 1/2/2/3;
+  margin: 3px;
+}
+.titulo {
+  text-align: center;
+}
+.parrafo {
+  text-align: center;
+}
+.boton {
+  align-items: center;
+  width: 100px;
+  height: 38px;
+  border-radius: 30px;
+  background-color: rgb(102, 189, 247);
+  border: none;
+  margin-top: 15px;
+  margin-bottom: 15px; 
+}
+.boton:hover {
+  background-color: #3b8dc4;
+  color: #fff;
+}
+
+.top {
+  align-items: center;
+  text-align: center;
+}
+.mid {
+  align-items: center;
+  text-align: center;
+}
+.resultado {
+  font-weight: bold;
+  font-size: 6rem;
+  }
+.resultado2 {
+  font-weight: bold;
+  font-size: 4rem;
+  }

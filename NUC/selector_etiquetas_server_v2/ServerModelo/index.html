@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>Seletor de Etiquetas</title>
+    <link rel="stylesheet" href="stilos.css" />
+  </head>
+  <body>
+    <main>
+      <div class="bottom">
+        <div class="imagenes">
+          <img class="logo" src="" alt="" />
+          <img class="logondos" src="" alt="" />
+        </div>
+        <h1 class="titulo">Buenas y Defectuosas</h1>
+        <br />
+        <p class="parrafo">
+          Clasificaci&oacute;n de etiquetas (Buena o Defectuosa) usando
+          Inteligencia artificial y una camara.
+        </p>
+      </div>
+
+      <div class="container">
+        <button class="boton" type="submit" onclick="cambiarCam()">Camera</button>
+        <div class="mt-1" id="camSelect">
+          <p> Camara Default</p>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-4 offset-md-4 text-center">
+            <div id="webcam-container"></div>
+            <button class="boton" type="button" onclick="init()">Start Model</button>
+            <button class="boton" type="button" Id="initSend" onclick="sendNow()">Start Send</button>
+            <button class="boton" type="button" Id="stopSend" onclick="sendStop()">Stop Send</button>
+            <div id="label-container"></div>
+            <div class="resultado" id="resultado">
+              <p></p>
+            </div>
+            <canvas id="canvas" width="400" height="400" style="display: none" ></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="b-example-divider mb-0"></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.3/dist/teachablemachine-image.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+      let model, webcam, labelContainer, maxPredictions, targetSend;
+
+      // Load the image model and setup the webcam
+      var cam = 0
+      function cambiarCam(){
+        var camSelect_html = document.querySelector('#camSelect')
+        if (cam == 0) {
+          cam = 1;
+          camSelect_html.innerHTML = `Camara 1`;
+          console.log(cam);
+        } else {
+          cam = 0;
+          camSelect_html.innerHTML = `Camara 2`;
+          console.log(cam);
+        } 
+      }
+      async function init() {
+        const modelURL = "model.json";
+        const metadataURL = "metadata.json";
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        // Convenience function to setup a webcam
+        const flip = true; // whether to flip the webcam
+        const width = 400;
+        const height = 400;
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        webcam = new tmImage.Webcam(width, height, false);
+        await webcam.setup({ deviceId: devices[cam].deviceId });
+        await webcam.play();
+        window.requestAnimationFrame(loop);
+
+        document
+          .getElementById("webcam-container")
+          .appendChild(webcam.canvas);
+        
+        // append elements to the DOM
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) {
+          // and class labels
+          labelContainer.appendChild(document.createElement("div"));
+        }
+        webcam.play();
+        window.requestAnimationFrame(loop);
+      }
+
+      async function loop() {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+      }
+
+      // run the webcam image through the image model
+      async function predict() {
+        // predict can take in an image, video or canvas html element
+        let prediction;
+        prediction = await model.predict(webcam.canvas);
+        
+        for (let i = 0; i < maxPredictions; i++) {
+          const classPrediction =
+            prediction[i].className +
+            ": " +
+            prediction[i].probability.toFixed(2);
+          labelContainer.childNodes[i].innerHTML = classPrediction;
+        }
+        var respuesta;
+        var int_plc = {
+          Id: "Astrazina",
+          defectusosa: false,
+          prediccion: 0,
+          camara: cam
+        };
+        if (prediction[0].probability.toFixed(2) >= 0.5) {
+          respuesta = "Sin marca";
+          int_plc.prediccion = 1;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[1].probability.toFixed(2) >= 0.5) {
+          respuesta = "Rasgada";
+          int_plc.prediccion = 2;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[2].probability.toFixed(2) >= 0.5) {
+          respuesta = "Sin etiqueta";
+          int_plc.prediccion = 3;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[3].probability.toFixed(2) >= 0.5) {
+          respuesta = "Arrugada";
+          int_plc.prediccion = 4;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[4].probability.toFixed(2) >= 0.5) {
+          respuesta = "Fuera de marco";
+          int_plc.prediccion = 5;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[5].probability.toFixed(2) >= 0.5) {
+          respuesta = "Invertida";
+          int_plc.prediccion = 6;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[6].probability.toFixed(2) >= 0.5) {
+          respuesta = "Traslapada";
+          int_plc.prediccion = 7;
+          int_plc.defectusosa = true;
+        }
+        if (prediction[7].probability.toFixed(2) >= 0.5) {
+          respuesta = "Movida";
+          int_plc.prediccion = 8;
+          int_plc.defectusosa = true;
+        } 
+        if (prediction[8].probability.toFixed(2) >= 0.5) {
+          respuesta = "Vacio";
+          int_plc.prediccion = 9;
+          int_plc.defectusosa = false;
+        } 
+        if (prediction[9].probability.toFixed(2) >= 0.5) {
+          respuesta = "Buena";
+          int_plc.prediccion = 10;
+          int_plc.defectusosa = false;
+        }
+
+        document.getElementById("resultado").innerHTML = respuesta;
+
+        if (targetSend == 0 & (int_plc.prediccion == 0 || int_plc.prediccion == 9)) {
+          
+          targetSend = 1;
+          send_data(int_plc)
+          console.log(int_plc);
+          console.log("buena o vacio")
+          console.log("dato enviado")
+        }
+        if (targetSend == 1 & (int_plc.prediccion != 0 & int_plc.prediccion != 9)) {
+          targetSend = 0
+          send_data(int_plc)
+          console.log(int_plc);
+          console.log("defecto")
+          console.log("dato enviado")
+        }
+
+      }
+      async function sendNow() {
+        targetSend = 0
+        console.log("Send Activo")
+        return targetSend
+      }
+      async function sendStop() {
+        targetSend = 3
+        console.log("Send Pausa")
+        return targetSend
+      }
+      var contadorSend = 1;
+      async function send_data(int_plc) {
+        console.log(contadorSend + " datos enviados");
+        contadorSend += 1;
+          const response = await fetch("http://localhost:5000/send_values", {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            //referrerPolicy: 'no-referrer',
+            body: JSON.stringify(int_plc)
+          });
+          //return response.json();      
+
+      }
+
+    </script>
+  </body>
+</html>
